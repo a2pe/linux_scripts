@@ -1,5 +1,6 @@
 import subprocess
 from collections import Counter
+from datetime import datetime
 
 
 REPORT = '''
@@ -73,17 +74,20 @@ def run_command(command='ps', param='-aux'):
         if user in cnt.keys():
             user_per_process[user] = cnt[user]
 
-    print(f'Отчёт о состоянии системы:')
-    print(f'Пользователи системы: {users}')
-    print(f'Процессов запущено: {num_lines - 1}')
-    print(f'Пользовательских процессов: {user_per_process}')
-    print(f'Всего памяти используется: {mems_sum:.3f}')
-    print(f'Всего CPU используется: {cpus_sum:.3f}')
-    print(f'Больше всего памяти использует PID: {max_mem_pid}')
-    print(f'Больше всего CPU использует PID: {max_cpu_pid}')
+    filename = datetime.now().strftime("%m-%d-%Y-%H:%M:%S") + '.txt'
+    with open(filename, 'w') as f:
+        f.write(f'Отчёт о состоянии системы:')
+        f.write(f'Пользователи системы: {users}')
+        f.write(f'Процессов запущено: {num_lines - 1}')
+        f.write(f'Пользовательских процессов: {user_per_process}')
+        f.write(f'Всего памяти используется: {mems_sum:.3f}')
+        f.write(f'Всего CPU используется: {cpus_sum:.3f}')
+        f.write(f'Больше всего памяти использует PID: {max_mem_pid}')
+        f.write(f'Больше всего CPU использует PID: {max_cpu_pid}')
 
     # Не уверена, какой подход лучше -- с константой для репорта или принтом каждой строки -- и как задать
-    # форматирование в строке ниже. print(REPORT.format(users, num_lines - 1, user_per_process, mems_sum, cpus_sum,
+    # форматирование в строке ниже.
+    # print(REPORT.format(users, num_lines - 1, user_per_process, mems_sum, cpus_sum,
     # max_mem_pid, max_cpu_pid))
 
 
