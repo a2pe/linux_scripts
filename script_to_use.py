@@ -3,23 +3,6 @@ from collections import Counter
 from datetime import datetime
 
 
-REPORT = '''
-Отчёт о состоянии системы:
-
-Пользователи системы: {}
-Процессов запущено: {}
-Пользовательских процессов:
-{}
-...
-Всего памяти используется: {}
-Всего CPU используется: {}
-Больше всего памяти использует: {} 
-(%имя процесса, первые 20 символов если оно длиннее)
-Больше всего CPU использует: {} 
-(%имя процесса, первые 20 символов если оно длиннее)
-'''
-
-
 def run_command(command='ps', param='-aux'):
     result = subprocess.run(
         [command, param],
@@ -29,11 +12,9 @@ def run_command(command='ps', param='-aux'):
     )
 
     new_file = result.stdout
+
     # Counting the number of lines in the output.
-    num_lines = 0
-    for line in new_file:
-        if line == '\n':
-            num_lines += 1
+    num_lines = len([line for line in new_file.split('\n')])
 
     # Selecting the titles for the columns in the output.
     params = new_file.split('\n')[0].split(' ')
@@ -84,11 +65,6 @@ def run_command(command='ps', param='-aux'):
         f.write(f'Всего CPU используется: {cpus_sum:.3f}')
         f.write(f'Больше всего памяти использует PID: {max_mem_pid}')
         f.write(f'Больше всего CPU использует PID: {max_cpu_pid}')
-
-    # Не уверена, какой подход лучше -- с константой для репорта или принтом каждой строки -- и как задать
-    # форматирование в строке ниже.
-    # print(REPORT.format(users, num_lines - 1, user_per_process, mems_sum, cpus_sum,
-    # max_mem_pid, max_cpu_pid))
 
 
 run_command()
