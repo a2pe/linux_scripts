@@ -57,14 +57,14 @@ def run_command(command='ps', param='-aux'):
 
     filename = datetime.now().strftime("%m-%d-%Y-%H:%M:%S") + '.txt'
     with open(filename, 'w') as f:
-        f.write(f'Отчёт о состоянии системы:')
-        f.write(f'Пользователи системы: {users}')
-        f.write(f'Процессов запущено: {num_lines - 1}')
-        f.write(f'Пользовательских процессов: {user_per_process}')
-        f.write(f'Всего памяти используется: {mems_sum:.3f}')
-        f.write(f'Всего CPU используется: {cpus_sum:.3f}')
-        f.write(f'Больше всего памяти использует PID: {max_mem_pid}')
-        f.write(f'Больше всего CPU использует PID: {max_cpu_pid}')
+        f.write(f'System Report:')
+        f.write(f'Users: {users}')
+        f.write(f'The number of processes running: {num_lines - 1}')
+        f.write(f'Processes per user: {user_per_process}')
+        f.write(f'Total Memory used: {mems_sum:.3f}')
+        f.write(f'Total CPU used: {cpus_sum:.3f}')
+        f.write(f'Most memory is used by PID: {max_mem_pid}')
+        f.write(f'Most CPU is used by PID: {max_cpu_pid}')
 
 
 run_command()
